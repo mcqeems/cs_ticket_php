@@ -32,8 +32,8 @@
 						<?php foreach ($users as $user): ?>
 							<tr>
 								<td><?= $counter++ ?></td>
-								<td><?= htmlspecialchars($user['name']) ?></td>
-								<td><?= htmlspecialchars($user['email']) ?></td>
+								<td><?= htmlspecialchars($user['name'] ?? 'N/A') ?></td>
+								<td><?= htmlspecialchars($user['email'] ?? 'N/A') ?></td>
 								<td>
 									<a href="index.php?action=user_detail&id=<?= $user['_id'] ?? $counter - 1 ?>"
 										class="btn btn-sm btn-primary">
