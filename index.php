@@ -129,6 +129,37 @@ switch ($action) {
 		$userController->detail($userId);
 		break;
 
+	case 'user_create':
+		AuthController::requireRole('admin');
+		$userController = new UserController();
+		$userController->create();
+		break;
+
+	case 'user_store':
+		AuthController::requireRole('admin');
+		$userController = new UserController();
+		$userController->store();
+		break;
+
+	case 'user_edit':
+		AuthController::requireRole('admin');
+		$userId = $_GET['id'] ?? null;
+		$userController = new UserController();
+		$userController->edit($userId);
+		break;
+
+	case 'user_update':
+		AuthController::requireRole('admin');
+		$userController = new UserController();
+		$userController->updateUser();
+		break;
+
+	case 'user_delete':
+		AuthController::requireRole('admin');
+		$userController = new UserController();
+		$userController->deleteUser();
+		break;
+
 	default:
 		$dashboardController = new DashboardController();
 		$dashboardController->index();

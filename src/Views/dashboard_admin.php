@@ -13,7 +13,7 @@
 				<div class="d-flex justify-content-between align-items-center">
 					<div>
 						<h6 class="card-title text-uppercase mb-0">Total Tickets</h6>
-						<h2 class="mb-0">0</h2>
+						<h2 class="mb-0"><?= $stats['total'] ?? 0 ?></h2>
 					</div>
 					<div>
 						<i class="bi bi-ticket-perforated" style="font-size: 3rem; opacity: 0.5;"></i>
@@ -28,7 +28,7 @@
 				<div class="d-flex justify-content-between align-items-center">
 					<div>
 						<h6 class="card-title text-uppercase mb-0">Open Tickets</h6>
-						<h2 class="mb-0">0</h2>
+						<h2 class="mb-0"><?= $stats['open'] ?? 0 ?></h2>
 					</div>
 					<div>
 						<i class="bi bi-exclamation-circle" style="font-size: 3rem; opacity: 0.5;"></i>
@@ -43,7 +43,7 @@
 				<div class="d-flex justify-content-between align-items-center">
 					<div>
 						<h6 class="card-title text-uppercase mb-0">In Progress</h6>
-						<h2 class="mb-0">0</h2>
+						<h2 class="mb-0"><?= $stats['process'] ?? 0 ?></h2>
 					</div>
 					<div>
 						<i class="bi bi-arrow-repeat" style="font-size: 3rem; opacity: 0.5;"></i>
@@ -57,8 +57,8 @@
 			<div class="card-body">
 				<div class="d-flex justify-content-between align-items-center">
 					<div>
-						<h6 class="card-title text-uppercase mb-0">Closed Today</h6>
-						<h2 class="mb-0">0</h2>
+						<h6 class="card-title text-uppercase mb-0">Closed</h6>
+						<h2 class="mb-0"><?= $stats['closed'] ?? 0 ?></h2>
 					</div>
 					<div>
 						<i class="bi bi-check-circle" style="font-size: 3rem; opacity: 0.5;"></i>
@@ -107,9 +107,53 @@
 				<h5 class="mb-0"><i class="bi bi-clock-history"></i> Recent Tickets</h5>
 			</div>
 			<div class="card-body">
-				<div class="alert alert-info">
-					<i class="bi bi-info-circle"></i> No tickets yet. System is ready to receive tickets.
-				</div>
+				<?php if (empty($recentTickets)): ?>
+					<div class="alert alert-info">
+						<i class="bi bi-info-circle"></i> No tickets yet. System is ready to receive tickets.
+					</div>
+				<?php else: ?>
+					<div class="table-responsive">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>Ticket #</th>
+									<th>Subject</th>
+									<th>Status</th>
+									<th>Priority</th>
+									<th>Created</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php foreach ($recentTickets as $ticket): ?>
+									<tr>
+										<td>
+											<a href="index.php?action=ticket_detail&id=<?= $ticket['_id'] ?>">
+												<?= htmlspecialchars($ticket['ticket_number']) ?>
+											</a>
+										</td>
+										<td>
+											<?= htmlspecialchars(substr($ticket['subject'], 0, 40)) ?>		<?= strlen($ticket['subject']) > 40 ? '...' : '' ?>
+										</td>
+										<td>
+											<span
+												class="badge bg-<?= $ticket['status'] === 'open' ? 'warning' : ($ticket['status'] === 'process' ? 'info' : 'success') ?>">
+												<?= ucfirst($ticket['status']) ?>
+											</span>
+										</td>
+										<td>
+											<span
+												class="badge bg-<?= $ticket['priority'] === 'high' ? 'danger' : ($ticket['priority'] === 'medium' ? 'warning' : 'secondary') ?>">
+												<?= ucfirst($ticket['priority']) ?>
+											</span>
+										</td>
+										<td><?= date('M d, Y', $ticket['created_at']->toDateTime()->getTimestamp()) ?></td>
+									</tr>
+								<?php endforeach; ?>
+							</tbody>
+						</table>
+					</div>
+					<a href="index.php?action=tickets" class="btn btn-primary btn-sm">View All Tickets</a>
+				<?php endif; ?>
 			</div>
 		</div>
 	</div>
@@ -119,9 +163,26 @@
 				<h5 class="mb-0"><i class="bi bi-people"></i> Active Agents</h5>
 			</div>
 			<div class="card-body">
-				<div class="alert alert-info mb-0">
-					<i class="bi bi-info-circle"></i> Loading agent data...
-				</div>
+				<?php if (empty($activeAgents)): ?>
+					<div class="alert alert-info mb-0">
+						<i class="bi bi-info-circle"></i> No active agents found.
+					</div>
+				<?php else: ?>
+					<ul class="list-group list-group-flush">
+						<?php foreach ($activeAgents as $agent): ?>
+							<li class="list-group-item d-flex justify-content-between align-items-center">
+								<div>
+									<i class="bi bi-person-badge"></i>
+									<?= htmlspecialchars($agent['name'] ?? 'N/A') ?>
+									<?php if (isset($agent['department'])): ?>
+										<br><small class="text-muted"><?= htmlspecialchars($agent['department']) ?></small>
+									<?php endif; ?>
+								</div>
+								<span class="badge bg-success rounded-pill">Active</span>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				<?php endif; ?>
 			</div>
 		</div>
 	</div>

@@ -414,5 +414,52 @@ class TicketModel
 
 		return $stats;
 	}
+
+	/**
+	 * Get agent-specific statistics
+	 */
+	public function getAgentStatistics($agentId)
+	{
+		$today = new UTCDateTime(strtotime('today') * 1000);
+
+		$stats = [
+			'assigned' => $this->collection->countDocuments(['assigned_to' => new ObjectId($agentId)]),
+			'in_progress' => $this->collection->countDocuments([
+				'assigned_to' => new ObjectId($agentId),
+				'status' => 'process'
+			]),
+			'closed_today' => $this->collection->countDocuments([
+				'assigned_to' => new ObjectId($agentId),
+				'status' => 'close',
+				'updated_at' => ['$gte' => $today]
+			])
+		];
+
+		return $stats;
+	}
+
+	/**
+	 * Get client-specific statistics
+	 */
+	public function getClientStatistics($userId)
+	{
+		$stats = [
+			'total' => $this->collection->countDocuments(['user_id' => new ObjectId($userId)]),
+			'open' => $this->collection->countDocuments([
+				'user_id' => new ObjectId($userId),
+				'status' => 'open'
+			]),
+			'process' => $this->collection->countDocuments([
+				'user_id' => new ObjectId($userId),
+				'status' => 'process'
+			]),
+			'closed' => $this->collection->countDocuments([
+				'user_id' => new ObjectId($userId),
+				'status' => 'close'
+			])
+		];
+
+		return $stats;
+	}
 }
 ?>

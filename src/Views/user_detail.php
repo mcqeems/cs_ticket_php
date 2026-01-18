@@ -21,13 +21,20 @@
 					</div>
 					<h4 class="card-title"><?= htmlspecialchars($user['name']) ?></h4>
 					<p class="text-muted"><?= htmlspecialchars($user['email']) ?></p>
+					<span
+						class="badge bg-<?= $user['role'] === 'admin' ? 'danger' : ($user['role'] === 'support_agent' ? 'primary' : 'secondary') ?> mb-3">
+						<?= htmlspecialchars(ucfirst(str_replace('_', ' ', $user['role']))) ?>
+					</span>
 					<div class="d-grid gap-2">
-						<button class="btn btn-primary">
-							<i class="bi bi-pencil"></i> Edit Profile
-						</button>
-						<button class="btn btn-danger">
-							<i class="bi bi-trash"></i> Delete User
-						</button>
+						<a href="index.php?action=user_edit&id=<?= $user['_id'] ?>" class="btn btn-primary">
+							<i class="bi bi-pencil"></i> Edit User
+						</a>
+						<?php if ((string) $user['_id'] !== $_SESSION['user_id']): ?>
+							<a href="index.php?action=user_delete&id=<?= $user['_id'] ?>" class="btn btn-danger"
+								onclick="return confirm('Are you sure you want to delete this user?')">
+								<i class="bi bi-trash"></i> Delete User
+							</a>
+						<?php endif; ?>
 					</div>
 				</div>
 			</div>
