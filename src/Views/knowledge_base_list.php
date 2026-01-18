@@ -4,7 +4,7 @@
 			<h2>
 				<i class="bi bi-book"></i> Knowledge Base
 			</h2>
-			<?php if (in_array($_SESSION['user_role'], ['admin', 'agent'])): ?>
+			<?php if (in_array($_SESSION['user_role'], ['admin', 'agent', 'support_agent'])): ?>
 				<a href="index.php?action=kb_create" class="btn btn-primary">
 					<i class="bi bi-plus-circle"></i> Create Article
 				</a>
@@ -75,13 +75,76 @@
 	</div>
 </div>
 
+<!-- Filters -->
+<div class="row mb-4">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
+				<form method="GET" action="index.php" class="row g-3">
+					<input type="hidden" name="action" value="knowledge_base">
+					<div class="col-md-4">
+						<label for="category" class="form-label"><i class="bi bi-funnel"></i> Filter by Category</label>
+						<select class="form-select" id="category" name="category" onchange="this.form.submit()">
+							<option value="">All Categories</option>
+							<option value="general" <?= ($_GET['category'] ?? '') === 'general' ? 'selected' : '' ?>>General</option>
+							<option value="getting-started" <?= ($_GET['category'] ?? '') === 'getting-started' ? 'selected' : '' ?>>
+								Getting Started</option>
+							<option value="troubleshooting" <?= ($_GET['category'] ?? '') === 'troubleshooting' ? 'selected' : '' ?>>
+								Troubleshooting</option>
+							<option value="faq" <?= ($_GET['category'] ?? '') === 'faq' ? 'selected' : '' ?>>FAQ</option>
+							<option value="account" <?= ($_GET['category'] ?? '') === 'account' ? 'selected' : '' ?>>Account</option>
+							<option value="billing" <?= ($_GET['category'] ?? '') === 'billing' ? 'selected' : '' ?>>Billing</option>
+							<option value="technical" <?= ($_GET['category'] ?? '') === 'technical' ? 'selected' : '' ?>>Technical
+							</option>
+						</select>
+					</div>
+					<div class="col-md-4">
+						<label for="tag" class="form-label"><i class="bi bi-tags"></i> Filter by Tag</label>
+						<input type="text" class="form-control" id="tag" name="tag" placeholder="Enter tag to filter"
+							value="<?= htmlspecialchars($_GET['tag'] ?? '') ?>">
+					</div>
+					<div class="col-md-4 d-flex align-items-end">
+						<button type="submit" class="btn btn-primary me-2">
+							<i class="bi bi-funnel-fill"></i> Apply Filters
+						</button>
+						<?php if (!empty($_GET['category']) || !empty($_GET['tag'])): ?>
+							<a href="index.php?action=knowledge_base" class="btn btn-secondary">
+								<i class="bi bi-x-circle"></i> Clear Filters
+							</a>
+						<?php endif; ?>
+					</div>
+				</form>
+				<?php if (!empty($_GET['category']) || !empty($_GET['tag'])): ?>
+					<div class="mt-3">
+						<strong>Active Filters:</strong>
+						<?php if (!empty($_GET['category'])): ?>
+							<span class="badge bg-primary">
+								Category: <?= ucfirst(str_replace('-', ' ', htmlspecialchars($_GET['category']))) ?>
+								<a href="index.php?action=knowledge_base<?= !empty($_GET['tag']) ? '&tag=' . urlencode($_GET['tag']) : '' ?>"
+									class="text-white ms-1">&times;</a>
+							</span>
+						<?php endif; ?>
+						<?php if (!empty($_GET['tag'])): ?>
+							<span class="badge bg-info">
+								Tag: <?= htmlspecialchars($_GET['tag']) ?>
+								<a href="index.php?action=knowledge_base<?= !empty($_GET['category']) ? '&category=' . urlencode($_GET['category']) : '' ?>"
+									class="text-white ms-1">&times;</a>
+							</span>
+						<?php endif; ?>
+					</div>
+				<?php endif; ?>
+			</div>
+		</div>
+	</div>
+</div>
+
 <!-- Articles List -->
 <div class="row">
 	<?php if (empty($articles)): ?>
 		<div class="col-12">
 			<div class="alert alert-info text-center">
 				<i class="bi bi-info-circle"></i> No articles found.
-				<?php if (in_array($_SESSION['user_role'], ['admin', 'agent'])): ?>
+				<?php if (in_array($_SESSION['user_role'], ['admin', 'agent', 'support_agent'])): ?>
 					<a href="index.php?action=kb_create">Create the first article</a>
 				<?php endif; ?>
 			</div>
@@ -137,7 +200,9 @@
 								$canEdit = false;
 								if ($_SESSION['user_role'] === 'admin') {
 									$canEdit = true;
-								} elseif ($_SESSION['user_role'] === 'agent' && isset($article['created_by'])) {
+								} elseif (in_array($_SESSION['user_role'], ['agent', 'support_agent']) && isset($article['created_by'])) {
+									$canEdit = $article['created_by']->__toString() === $_SESSION['user_id'];
+								} elseif (isset($article['created_by'])) {
 									$canEdit = $article['created_by']->__toString() === $_SESSION['user_id'];
 								}
 								?>

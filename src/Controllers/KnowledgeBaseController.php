@@ -18,19 +18,31 @@ class KnowledgeBaseController
 	public function index()
 	{
 		$search = $_GET['search'] ?? '';
+		$category = $_GET['category'] ?? '';
+		$tag = $_GET['tag'] ?? '';
 		$userRole = $_SESSION['user_role'] ?? 'customer';
 
 		if (!empty($search)) {
 			$articles = $this->model->search($search);
 		} else {
-			// Admin and agents can see drafts, customers only see published
-			$publishedOnly = $userRole === 'customer';
-			$articles = $this->model->getAll($publishedOnly);
+			// Admin, agents and support_agents can see drafts, customers only see published
+			$publishedOnly = !in_array($userRole, ['admin', 'agent', 'support_agent']);
+
+			// Build filters
+			$filters = [];
+			if (!empty($category)) {
+				$filters['category'] = $category;
+			}
+			if (!empty($tag)) {
+				$filters['tag'] = $tag;
+			}
+
+			$articles = $this->model->getAll($publishedOnly, $filters);
 		}
 
-		// Get statistics for agents and admins
+		// Get statistics for agents, support_agents and admins
 		$stats = null;
-		if (in_array($userRole, ['admin', 'agent'])) {
+		if (in_array($userRole, ['admin', 'agent', 'support_agent'])) {
 			$stats = $this->model->getStatistics();
 		}
 
@@ -70,8 +82,8 @@ class KnowledgeBaseController
 	 */
 	public function create()
 	{
-		// Only agents and admins can create
-		if (!in_array($_SESSION['user_role'], ['admin', 'agent'])) {
+		// Only agents, support_agents and admins can create
+		if (!in_array($_SESSION['user_role'], ['admin', 'agent', 'support_agent'])) {
 			$_SESSION['error'] = 'You do not have permission to create articles.';
 			header('Location: index.php?action=knowledge_base');
 			exit;
@@ -86,8 +98,8 @@ class KnowledgeBaseController
 	 */
 	public function store()
 	{
-		// Only agents and admins can create
-		if (!in_array($_SESSION['user_role'], ['admin', 'agent'])) {
+		// Only agents, support_agents and admins can create
+		if (!in_array($_SESSION['user_role'], ['admin', 'agent', 'support_agent'])) {
 			$_SESSION['error'] = 'You do not have permission to create articles.';
 			header('Location: index.php?action=knowledge_base');
 			exit;
@@ -261,12 +273,17 @@ class KnowledgeBaseController
 			return true;
 		}
 
-		// Agent can only modify their own articles
-		if ($userRole === 'agent' && isset($article['created_by'])) {
+		// Agent or support_agent can only modify their own articles
+		if (in_array($userRole, ['agent', 'support_agent']) && isset($article['created_by'])) {
 			return $article['created_by']->__toString() === $userId;
 		}
 
-		// Customers cannot modify articles
+		// Check if user is the author (for any other role)
+		if (isset($article['created_by']) && $userId) {
+			return $article['created_by']->__toString() === $userId;
+		}
+
+		// Default: cannot modify
 		return false;
 	}
 }

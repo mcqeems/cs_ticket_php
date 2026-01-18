@@ -63,7 +63,7 @@ $pageTitle = $isEdit ? 'Edit Article' : 'Create New Article';
 					<div class="mb-3">
 						<label for="tags" class="form-label">Tags</label>
 						<input type="text" class="form-control" id="tags" name="tags"
-							value="<?= $isEdit && !empty($article['tags']) ? htmlspecialchars(implode(', ', $article['tags'])) : '' ?>"
+							value="<?= $isEdit && !empty($article['tags']) ? htmlspecialchars(implode(', ', (array) $article['tags'])) : '' ?>"
 							placeholder="password, login, account (separate with commas)">
 						<small class="text-muted">Add tags to help users find this article (separate with commas)</small>
 					</div>

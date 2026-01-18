@@ -16,7 +16,9 @@
 						$canModify = false;
 						if ($_SESSION['user_role'] === 'admin') {
 							$canModify = true;
-						} elseif ($_SESSION['user_role'] === 'agent' && isset($article['created_by'])) {
+						} elseif (in_array($_SESSION['user_role'], ['agent', 'support_agent']) && isset($article['created_by'])) {
+							$canModify = $article['created_by']->__toString() === $_SESSION['user_id'];
+						} elseif (isset($article['created_by'])) {
 							$canModify = $article['created_by']->__toString() === $_SESSION['user_id'];
 						}
 						?>

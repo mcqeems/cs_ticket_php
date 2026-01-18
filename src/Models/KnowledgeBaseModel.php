@@ -19,12 +19,27 @@ class KnowledgeBaseModel
 	/**
 	 * Get all knowledge base articles
 	 */
-	public function getAll($publishedOnly = true)
+	public function getAll($publishedOnly = true, $filters = [])
 	{
 		$pipeline = [];
+		$matchConditions = [];
 
 		if ($publishedOnly) {
-			$pipeline[] = ['$match' => ['status' => 'published']];
+			$matchConditions['status'] = 'published';
+		}
+
+		// Add category filter
+		if (!empty($filters['category'])) {
+			$matchConditions['category'] = $filters['category'];
+		}
+
+		// Add tag filter
+		if (!empty($filters['tag'])) {
+			$matchConditions['tags'] = $filters['tag'];
+		}
+
+		if (!empty($matchConditions)) {
+			$pipeline[] = ['$match' => $matchConditions];
 		}
 
 		$pipeline[] = [
