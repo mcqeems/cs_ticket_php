@@ -14,7 +14,7 @@ use App\Models\HelpTopicModel;
 $action = $_GET['action'] ?? 'dashboard';
 
 // Public routes (no authentication required)
-$publicRoutes = ['login', 'register', 'forgot_password'];
+$publicRoutes = ['login', 'register',];
 
 // API routes (return JSON, no HTML layout)
 $apiRoutes = ['api_help_topics'];

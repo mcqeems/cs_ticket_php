@@ -26,13 +26,30 @@ A fully functional customer service ticket management system built with PHP and 
 - ✅ **Support Agent Dashboard**: Assigned tickets, department queue
 - ✅ **Client Dashboard**: Personal tickets, create ticket, help resources
 
+### Knowledge Base
+- ✅ Create, edit, and manage articles
+- ✅ Role-based permissions (Admin, Agent, Support Agent, Authors)
+- ✅ Categories: General, Getting Started, Troubleshooting, FAQ, Account, Billing, Technical
+- ✅ Tag system for better organization
+- ✅ Full-text search
+- ✅ Filter by category and tags
+- ✅ Draft and published status
+- ✅ View counter
+- ✅ HTML content support
+- ✅ Author attribution
+
+### User & Department Management
+- ✅ Admin user management (CRUD)
+- ✅ Department management with CRUD operations
+- ✅ User profile management (edit name, email, password)
+- ✅ Department descriptions and status (active/inactive)
+
 ### Additional Features
-- ✅ Department management
-- ✅ Help topics linked to departments
-- ✅ Ticket filtering and search
-- ✅ Real-time statistics
+- ✅ Real-time statistics dashboards
 - ✅ Responsive Bootstrap 5 UI
 - ✅ MongoDB NoSQL database
+- ✅ Advanced filtering and search
+- ✅ Activity logging and audit trails
 
 ## Tech Stack
 
@@ -116,7 +133,10 @@ After seeding, you can login with:
 
 ### knowledge_base
 - Self-service support articles
-- Categories: FAQ, Support, Maintenance
+- Categories: General, Getting Started, Troubleshooting, FAQ, Account, Billing, Technical
+- Supports HTML content, tags, draft/published status
+- Track views and author information
+- Filter by category and tags
 
 ## Usage Guide
 
@@ -134,14 +154,20 @@ After seeding, you can login with:
 3. Reply to tickets and update status
 4. Add internal notes for team collaboration
 5. Close tickets when resolved
+6. Create and manage knowledge base articles
+7. Edit/delete own knowledge base articles
+8. Update profile information
 
 ### For Administrators
 1. Login with admin credentials
 2. View system-wide statistics
 3. Manage all tickets across departments
-4. Access user management
-5. Configure departments and help topics
-6. Monitor agent performance
+4. Full user management (create, edit, delete users)
+5. Full department management (CRUD operations)
+6. Configure departments and help topics
+7. Manage all knowledge base articles
+8. Monitor agent performance
+9. Access audit logs and activity history
 
 ## API Endpoints
 
@@ -158,9 +184,27 @@ After seeding, you can login with:
 - `?action=ticket_update_status` - Change status (POST)
 - `?action=ticket_assign` - Assign to agent (POST)
 
+### User Profile Routes
+- `?action=profile` - View/edit user profile
+- `?action=profile_update` - Update profile (POST)
+
+### Knowledge Base Routes
+- `?action=knowledge_base` - Browse articles (with filters)
+- `?action=kb_view&id=X` - View article details
+- `?action=kb_create` - Create article (Agent/Admin)
+- `?action=kb_edit&id=X` - Edit article (Author/Admin)
+- `?action=kb_update` - Update article (POST)
+- `?action=kb_delete` - Delete article (POST)
+
 ### Admin Only Routes
 - `?action=users` - User management
+- `?action=user_create` - Create new user
+- `?action=user_edit&id=X` - Edit user
+- `?action=user_delete` - Delete user (POST)
 - `?action=departments` - Department management
+- `?action=department_create` - Create department
+- `?action=department_edit&id=X` - Edit department
+- `?action=department_delete` - Delete department (POST)
 - `?action=help_topics` - Help topic management
 
 ### AJAX API
@@ -180,13 +224,17 @@ After seeding, you can login with:
 │   │   ├── AuthController.php
 │   │   ├── DashboardController.php
 │   │   ├── TicketController.php
-│   │   └── UserController.php
+│   │   ├── UserController.php
+│   │   ├── DepartmentController.php
+│   │   ├── ProfileController.php
+│   │   └── KnowledgeBaseController.php
 │   ├── Models/
 │   │   ├── AuthModel.php
 │   │   ├── TicketModel.php
 │   │   ├── DepartmentModel.php
 │   │   ├── HelpTopicModel.php
-│   │   └── UserModel.php
+│   │   ├── UserModel.php
+│   │   └── KnowledgeBaseModel.php
 │   └── Views/
 │       ├── login.php
 │       ├── register.php
@@ -196,8 +244,16 @@ After seeding, you can login with:
 │       ├── ticket_list.php
 │       ├── ticket_create.php
 │       ├── ticket_detail.php
-│       ├── users_list.php (admin only)
-│       └── user_detail.php
+│       ├── users_list.php
+│       ├── user_form.php
+│       ├── user_detail.php
+│       ├── profile.php
+│       ├── departments_list.php
+│       ├── department_form.php
+│       ├── department_detail.php
+│       ├── knowledge_base_list.php
+│       ├── knowledge_base_detail.php
+│       └── knowledge_base_form.php
 └── vendor/                   # Composer dependencies
 ```
 
@@ -233,4 +289,6 @@ For issues or questions, create a support ticket in the system or contact the ad
 
 ---
 
-**Last Updated**: January 18, 2026
+**Version**: 2.0  
+**Last Updated**: January 18, 2026  
+**Status**: Production Ready ✅
