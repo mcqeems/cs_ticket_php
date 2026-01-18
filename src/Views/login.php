@@ -64,13 +64,6 @@
 					<p class="mb-0">Don't have an account? <a href="index.php?action=register">Sign up</a></p>
 					<p class="mb-0 mt-2"><a href="index.php?action=forgot_password">Forgot password?</a></p>
 				</div>
-
-				<div class="mt-4 p-3 bg-light rounded">
-					<p class="small mb-2"><strong>Demo Accounts:</strong></p>
-					<p class="small mb-1"><strong>Admin:</strong> admin@csticket.com / password123</p>
-					<p class="small mb-1"><strong>Agent:</strong> budi@csticket.com / password123</p>
-					<p class="small mb-0"><strong>Client:</strong> ahmad@gmail.com / password123</p>
-				</div>
 			</div>
 		</div>
 	</div>

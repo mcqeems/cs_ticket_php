@@ -6,6 +6,8 @@ use App\Controllers\AuthController;
 use App\Controllers\UserController;
 use App\Controllers\DashboardController;
 use App\Controllers\TicketController;
+use App\Controllers\ProfileController;
+use App\Controllers\KnowledgeBaseController;
 use App\Models\HelpTopicModel;
 
 // Determine the route
@@ -107,6 +109,54 @@ switch ($action) {
 		$ticketController->assign();
 		break;
 
+	// Profile Management
+	case 'profile':
+		$profileController = new ProfileController();
+		$profileController->index();
+		break;
+
+	case 'profile_update':
+		$profileController = new ProfileController();
+		$profileController->update();
+		break;
+
+	// Knowledge Base
+	case 'knowledge_base':
+		$kbController = new KnowledgeBaseController();
+		$kbController->index();
+		break;
+
+	case 'kb_view':
+		$articleId = $_GET['id'] ?? null;
+		$kbController = new KnowledgeBaseController();
+		$kbController->view($articleId);
+		break;
+
+	case 'kb_create':
+		$kbController = new KnowledgeBaseController();
+		$kbController->create();
+		break;
+
+	case 'kb_store':
+		$kbController = new KnowledgeBaseController();
+		$kbController->store();
+		break;
+
+	case 'kb_edit':
+		$articleId = $_GET['id'] ?? null;
+		$kbController = new KnowledgeBaseController();
+		$kbController->edit($articleId);
+		break;
+
+	case 'kb_update':
+		$kbController = new KnowledgeBaseController();
+		$kbController->update();
+		break;
+
+	case 'kb_delete':
+		$kbController = new KnowledgeBaseController();
+		$kbController->delete();
+		break;
 
 	// Dashboard
 	case 'dashboard':
