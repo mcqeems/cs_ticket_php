@@ -160,6 +160,51 @@ switch ($action) {
 		$userController->deleteUser();
 		break;
 
+	// Admin only - Department management
+	case 'departments':
+		AuthController::requireRole('admin');
+		$departmentController = new \App\Controllers\DepartmentController();
+		$departmentController->index();
+		break;
+
+	case 'department_detail':
+		AuthController::requireRole('admin');
+		$deptId = $_GET['id'] ?? null;
+		$departmentController = new \App\Controllers\DepartmentController();
+		$departmentController->detail($deptId);
+		break;
+
+	case 'department_create':
+		AuthController::requireRole('admin');
+		$departmentController = new \App\Controllers\DepartmentController();
+		$departmentController->create();
+		break;
+
+	case 'department_store':
+		AuthController::requireRole('admin');
+		$departmentController = new \App\Controllers\DepartmentController();
+		$departmentController->store();
+		break;
+
+	case 'department_edit':
+		AuthController::requireRole('admin');
+		$deptId = $_GET['id'] ?? null;
+		$departmentController = new \App\Controllers\DepartmentController();
+		$departmentController->edit($deptId);
+		break;
+
+	case 'department_update':
+		AuthController::requireRole('admin');
+		$departmentController = new \App\Controllers\DepartmentController();
+		$departmentController->updateDepartment();
+		break;
+
+	case 'department_delete':
+		AuthController::requireRole('admin');
+		$departmentController = new \App\Controllers\DepartmentController();
+		$departmentController->deleteDepartment();
+		break;
+
 	default:
 		$dashboardController = new DashboardController();
 		$dashboardController->index();
@@ -271,7 +316,7 @@ $isAuthPage = in_array($action, $publicRoutes);
 	</div>
 
 	<!-- Footer -->
-	<footer class="bg-dark text-white text-center py-3 mt-auto">
+	<footer class="text-muted text-center py-3 mt-auto">
 		<p class="mb-0">&copy; 2026 CS Ticket System. All rights reserved.</p>
 	</footer>
 
