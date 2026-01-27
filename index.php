@@ -2,6 +2,10 @@
 session_start();
 require 'vendor/autoload.php';
 
+// Load environment variables
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 use App\Controllers\AuthController;
 use App\Controllers\UserController;
 use App\Controllers\DashboardController;

@@ -11,16 +11,18 @@ class Database
 	public static function getConnection()
 	{
 		if (self::$client === null) {
-			self::$client = new Client("mongodb://localhost:27017");
+			$mongoUri = $_ENV['MONGODB_URI'];
+			self::$client = new Client($mongoUri);
 		}
 		return self::$client;
 	}
 
-	public static function getDatabase($dbName = 'cs_ticket')
+	public static function getDatabase($dbName = null)
 	{
 		if (self::$database === null) {
 			$client = self::getConnection();
-			self::$database = $client->selectDatabase($dbName);
+			$dbName = $dbName ?: $_ENV['MONGODB_DATABASE'];
+			self::$database = $client->selectDatabase(databaseName: $dbName);
 		}
 		return self::$database;
 	}
