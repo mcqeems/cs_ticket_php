@@ -1,74 +1,61 @@
-# CS Ticket System - Customer Support Ticketing System
+# CS Ticket System
 
-A fully functional customer service ticket management system built with PHP and MongoDB.
+A modern customer support ticketing system built with PHP and MongoDB. Simple, fast, and easy to use.
 
-## Features
+## What It Does
 
-### Authentication & Authorization
-- ✅ User registration and login
-- ✅ Role-based access control (Admin, Support Agent, Client)
-- ✅ Session management
-- ✅ Password hashing with bcrypt
+This system helps you manage customer support tickets efficiently:
+- **Clients** create and track their support tickets
+- **Support Agents** respond to tickets and help customers
+- **Admins** manage everything - users, departments, and system settings
 
-### Ticket Management
-- ✅ Create, view, and manage support tickets
-- ✅ Ticket status workflow (Open → In Progress → Closed)
-- ✅ Priority levels (Low, Normal, High, Urgent)
-- ✅ Department-based routing
-- ✅ Help topic categorization
-- ✅ Ticket assignment to support agents
-- ✅ Conversation threads with replies
-- ✅ Internal notes (staff-only comments)
-- ✅ Activity history and audit trail
+## Key Features
 
-### Role-Based Dashboards
-- ✅ **Admin Dashboard**: System statistics, all tickets, user management
-- ✅ **Support Agent Dashboard**: Assigned tickets, department queue
-- ✅ **Client Dashboard**: Personal tickets, create ticket, help resources
+✅ **Ticket Management**
+- Create tickets with priority levels (Low, Normal, High, Urgent)
+- Track ticket status: Open → In Progress → Closed
+- Reply with messages and attach internal notes for staff
+- View complete conversation history
 
-### Knowledge Base
-- ✅ Create, edit, and manage articles
-- ✅ Role-based permissions (Admin, Agent, Support Agent, Authors)
-- ✅ Categories: General, Getting Started, Troubleshooting, FAQ, Account, Billing, Technical
-- ✅ Tag system for better organization
-- ✅ Full-text search
-- ✅ Filter by category and tags
-- ✅ Draft and published status
-- ✅ View counter
-- ✅ HTML content support
-- ✅ Author attribution
+✅ **Smart Organization**
+- Department-based ticket routing (Technical, Billing, Sales, etc.)
+- Help topics for categorizing issues
+- Assign tickets to specific support agents
+- Search and filter tickets easily
 
-### User & Department Management
-- ✅ Admin user management (CRUD)
-- ✅ Department management with CRUD operations
-- ✅ User profile management (edit name, email, password)
-- ✅ Department descriptions and status (active/inactive)
+✅ **Knowledge Base**
+- Self-service help articles
+- Categories and tags for easy navigation
+- Agents can create and manage articles
+- Track article views
 
-### Additional Features
-- ✅ Real-time statistics dashboards
-- ✅ Responsive Bootstrap 5 UI
-- ✅ MongoDB NoSQL database
-- ✅ Advanced filtering and search
-- ✅ Activity logging and audit trails
+✅ **User Roles**
+- **Client**: Create tickets, view own tickets, browse knowledge base
+- **Support Agent**: Handle assigned tickets, create articles, add internal notes
+- **Admin**: Full system control - manage users, departments, and all tickets
 
-## Tech Stack
+✅ **Dashboard for Everyone**
+- Real-time ticket statistics
+- Quick access to common actions
+- Role-specific views
 
-- **Backend**: PHP 7.4+
-- **Database**: MongoDB 4.0+
-- **Frontend**: Bootstrap 5, Bootstrap Icons
-- **Libraries**: MongoDB PHP Driver
+## Built With
 
-## Installation
+- **PHP 7.4+** - Server-side logic
+- **MongoDB** - Fast NoSQL database
+- **Bootstrap 5** - Modern, responsive design
 
-### Prerequisites
+## Quick Start
+
+### What You Need
 - PHP 7.4 or higher
 - MongoDB 4.0 or higher
 - Composer
-- Web server (Apache/Nginx)
+- A web server (Apache or Nginx)
 
-### Setup Steps
+### Installation
 
-1. **Clone the repository**
+1. **Navigate to the project folder**
    ```bash
    cd /var/www/cs_ticket
    ```
@@ -78,26 +65,19 @@ A fully functional customer service ticket management system built with PHP and 
    composer install
    ```
 
-3. **Configure MongoDB**
-   - Ensure MongoDB is running on `localhost:27017`
-   - Database name: `cs_ticket`
-   - Update connection in `src/Configs/Database.php` if needed
-
-4. **Seed the database**
+3. **Set up the database**
+   - Make sure MongoDB is running on `localhost:27017`
+   - Run the seeder to create sample data:
    ```bash
    php seed_database.php
    ```
 
-5. **Configure web server**
-   - Point document root to `/var/www/cs_ticket`
-   - Ensure `index.php` is accessible
+4. **Start using it**
+   - Open your browser and go to: `http://localhost/cs_ticket`
 
-6. **Access the application**
-   - Open browser: `http://localhost/cs_ticket` or your configured URL
+### Test Accounts
 
-## Default Accounts
-
-After seeding, you can login with:
+Use these credentials to login and explore:
 
 | Role | Email | Password |
 |------|-------|----------|
@@ -105,190 +85,120 @@ After seeding, you can login with:
 | Support Agent | budi@csticket.com | password123 |
 | Client | ahmad@gmail.com | password123 |
 
-## Database Structure (MongoDB Collections)
+## How to Use
 
-### users
-- User accounts with roles (admin, support_agent, client)
-- Includes authentication credentials and profile information
-
-### departments
-- Support departments (Technical Support, Billing, Customer Service, Sales)
-- Each agent is assigned to a department
-
-### help_topics
-- Categorization of ticket types
-- Linked to specific departments
-
-### tickets
-- Main ticket records with status, priority, assignments
-- Contains: ticket_number, subject, message, status, priority
-
-### ticket_replies
-- Conversation messages on tickets
-- Supports internal notes (staff-only)
-
-### ticket_history
-- Activity audit trail
-- Logs all ticket actions (created, replied, status changed, assigned)
-
-### knowledge_base
-- Self-service support articles
-- Categories: General, Getting Started, Troubleshooting, FAQ, Account, Billing, Technical
-- Supports HTML content, tags, draft/published status
-- Track views and author information
-- Filter by category and tags
-
-## Usage Guide
-
-### For Clients
-1. Register or login with client credentials
-2. Create a new ticket from dashboard
-3. Select department and help topic
-4. Describe your issue in detail
-5. Track ticket status and receive replies
-6. Browse knowledge base for self-help
+### For Customers (Clients)
+1. **Register** or **Login** with your account
+2. Click **Create New Ticket** from your dashboard
+3. Choose a department and describe your issue
+4. Track your ticket status and receive responses
+5. Browse the **Knowledge Base** for quick answers
 
 ### For Support Agents
-1. Login with agent credentials
-2. View assigned tickets from dashboard
-3. Reply to tickets and update status
-4. Add internal notes for team collaboration
-5. Close tickets when resolved
-6. Create and manage knowledge base articles
-7. Edit/delete own knowledge base articles
-8. Update profile information
+1. **Login** to see your assigned tickets
+2. Click on a ticket to view details
+3. Reply to customers or add internal notes for your team
+4. Update ticket status as you work on it
+5. Create helpful articles in the Knowledge Base
 
 ### For Administrators
-1. Login with admin credentials
+1. **Login** to access the admin dashboard
 2. View system-wide statistics
-3. Manage all tickets across departments
-4. Full user management (create, edit, delete users)
-5. Full department management (CRUD operations)
-6. Configure departments and help topics
-7. Manage all knowledge base articles
-8. Monitor agent performance
-9. Access audit logs and activity history
+3. Manage users - create, edit, or remove accounts
+4. Set up departments and help topics
+5. Oversee all tickets across the system
+6. Monitor support agent performance
 
-## API Endpoints
+## Understanding Ticket Flow
 
-### Public Routes (No Authentication)
+```
+Client Creates Ticket
+       ↓
+Ticket is Open (Yellow)
+       ↓
+Agent Starts Working → In Progress (Blue)
+       ↓
+Issue Resolved → Closed (Green)
+```
+
+**Ticket Priority Levels:**
+- 🟢 Low - Can wait
+- ⚪ Normal - Standard support
+- 🟡 High - Needs attention soon
+- 🔴 Urgent - Drop everything!
+
+**What's in a Ticket:**
+- Ticket number (e.g., TKT-2026-00001)
+- Subject and description
+- Department and help topic
+- Assigned agent
+- Conversation thread
+- Activity history
+
+## Database Overview
+
+The system uses MongoDB with these collections:
+
+| Collection | What It Stores |
+|------------|---------------|
+| **users** | User accounts with roles (admin, support_agent, client) |
+| **departments** | Support departments (Technical, Billing, Sales, etc.) |
+| **help_topics** | Types of issues customers can report |
+| **tickets** | All support tickets with their details |
+| **ticket_replies** | Conversation messages on tickets |
+| **ticket_history** | Activity log for tracking changes |
+| **knowledge_base** | Self-help articles and FAQs |
+
+## Main Routes
+
+### Everyone Can Access
+- `/` or `?action=dashboard` - Your dashboard (based on role)
 - `?action=login` - Login page
-- `?action=register` - Registration page
+- `?action=register` - Create new account
+- `?action=logout` - Sign out
 
-### Authenticated Routes
-- `?action=dashboard` - Role-based dashboard
-- `?action=tickets` - Ticket list with filters
-- `?action=ticket_create` - Create new ticket form
+### Ticket Operations
+- `?action=tickets` - List tickets (filtered by your role)
+- `?action=ticket_create` - Create a new ticket
 - `?action=ticket_detail&id=X` - View ticket details
-- `?action=ticket_reply` - Add reply (POST)
-- `?action=ticket_update_status` - Change status (POST)
+- `?action=ticket_reply` - Add a reply (POST)
+- `?action=ticket_update_status` - Change ticket status (POST)
 - `?action=ticket_assign` - Assign to agent (POST)
 
-### User Profile Routes
-- `?action=profile` - View/edit user profile
-- `?action=profile_update` - Update profile (POST)
-
-### Knowledge Base Routes
-- `?action=knowledge_base` - Browse articles (with filters)
-- `?action=kb_view&id=X` - View article details
-- `?action=kb_create` - Create article (Agent/Admin)
-- `?action=kb_edit&id=X` - Edit article (Author/Admin)
-- `?action=kb_update` - Update article (POST)
+### Knowledge Base
+- `?action=knowledge_base` - Browse articles
+- `?action=kb_view&id=X` - Read an article
+- `?action=kb_create` - Create article (Agent/Admin only)
+- `?action=kb_edit&id=X` - Edit article
 - `?action=kb_delete` - Delete article (POST)
 
-### Admin Only Routes
-- `?action=users` - User management
-- `?action=user_create` - Create new user
+### User Management (Admin Only)
+- `?action=users` - Manage users
+- `?action=user_create` - Add new user
 - `?action=user_edit&id=X` - Edit user
-- `?action=user_delete` - Delete user (POST)
-- `?action=departments` - Department management
-- `?action=department_create` - Create department
-- `?action=department_edit&id=X` - Edit department
-- `?action=department_delete` - Delete department (POST)
-- `?action=help_topics` - Help topic management
+- `?action=departments` - Manage departments
+- `?action=help_topics` - Manage help topics
 
-### AJAX API
-- `?action=api_help_topics&department_id=X` - Get help topics by department (JSON)
+### Your Profile
+- `?action=profile` - View/edit your profile
+- `?action=profile_update` - Save profile changes (POST)
 
-## File Structure
-
-```
-/var/www/cs_ticket/
-├── index.php                 # Main application entry point
-├── composer.json             # Dependencies
-├── seed_database.php         # Database seeder
-├── src/
-│   ├── Configs/
-│   │   └── Database.php      # MongoDB connection
-│   ├── Controllers/
-│   │   ├── AuthController.php
-│   │   ├── DashboardController.php
-│   │   ├── TicketController.php
-│   │   ├── UserController.php
-│   │   ├── DepartmentController.php
-│   │   ├── ProfileController.php
-│   │   └── KnowledgeBaseController.php
-│   ├── Models/
-│   │   ├── AuthModel.php
-│   │   ├── TicketModel.php
-│   │   ├── DepartmentModel.php
-│   │   ├── HelpTopicModel.php
-│   │   ├── UserModel.php
-│   │   └── KnowledgeBaseModel.php
-│   └── Views/
-│       ├── login.php
-│       ├── register.php
-│       ├── dashboard_admin.php
-│       ├── dashboard_agent.php
-│       ├── dashboard_client.php
-│       ├── ticket_list.php
-│       ├── ticket_create.php
-│       ├── ticket_detail.php
-│       ├── users_list.php
-│       ├── user_form.php
-│       ├── user_detail.php
-│       ├── profile.php
-│       ├── departments_list.php
-│       ├── department_form.php
-│       ├── department_detail.php
-│       ├── knowledge_base_list.php
-│       ├── knowledge_base_detail.php
-│       └── knowledge_base_form.php
-└── vendor/                   # Composer dependencies
-```
 
 ## Security Features
 
-- ✅ Password hashing with bcrypt
-- ✅ Role-based access control
-- ✅ Session-based authentication
-- ✅ Input validation and sanitization
-- ✅ XSS protection with htmlspecialchars()
-- ✅ MongoDB ObjectId validation
-- ✅ Permission checks on all routes
+✅ **Password Security** - Bcrypt hashing for all passwords  
+✅ **Session Management** - Secure login sessions  
+✅ **Role-Based Access** - Users only see what they should  
+✅ **Input Validation** - Protects against bad data  
+✅ **XSS Protection** - All output is sanitized  
+✅ **Access Control** - Every page checks permissions
 
-## Future Enhancements
+## Configuration
 
-- Email notifications for ticket updates
-- File attachment support
-- Advanced search and filtering
-- Ticket escalation rules
-- SLA (Service Level Agreement) tracking
-- Reports and analytics
-- Email-to-ticket functionality
-- Multi-language support
-- REST API for mobile apps
+Edit `src/Configs/Database.php` if your MongoDB is not on localhost:
 
-## License
+```php
+$client = new MongoDB\Client("mongodb://localhost:27017");
+$database = $client->cs_ticket;  // Database name
+```
 
-This project is developed for educational purposes.
-
-## Support
-
-For issues or questions, create a support ticket in the system or contact the administrator.
-
----
-
-**Version**: 2.0  
-**Last Updated**: January 18, 2026  
-**Status**: Production Ready ✅
